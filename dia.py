@@ -23,7 +23,7 @@ baseline_right = baseline_left + 60 * (23-5)
 def station_read(stations):
     #print('station_read')
     csvfile = open("station.txt", encoding="utf-8")
-    for row in csv.reader(csvfile):
+    for row in csv.reader(csvfile, skipinitialspace=True):
         station = [row[0], int(row[1])]
         stations.append(station)
 
@@ -39,7 +39,7 @@ def train_read(trains):
     #print('minute_in_seconds')
     print(minute_in_seconds)
     csvfile = open("train.txt", encoding="utf-8") 
-    for row in csv.reader(csvfile):
+    for row in csv.reader(csvfile, skipinitialspace=True):
         #print(row)
         if row[0] == "END":
             trains.append(train)
@@ -51,7 +51,7 @@ def train_read(trains):
                 flag = 1
             else:
                 train_num = int(row[0])
-                time_at_station = datetime.datetime.strptime(row[1], ' %H:%M')
+                time_at_station = datetime.datetime.strptime(row[1], '%H:%M')
                 td = time_at_station - origin_time_dt
                 train_time = int(td / minute_in_seconds)
                 train.append([train_num, train_time])
@@ -102,17 +102,14 @@ def disp_train(trains):
 stations = []
 trains = [] # [train, train, train, ..., train]
 
+# window
 root = tkinter.Tk()
 root.title(u"dia")
-#root.geometry("400x300")
 canvas = tkinter.Canvas(root, height=CANVAS_SIZE_HEIGHT, width=CANVAS_SIZE_WIDTH)
 
 station_read(stations)
-#print("stations")
-#print(stations)
 
 train_read(trains)
-#print(train)
 
 disp_stations()
 
